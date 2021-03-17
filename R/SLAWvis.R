@@ -9,6 +9,7 @@
 #' @import QFeatures
 #' @importFrom Spectra Spectra
 #' @import DBI
+#' @importFrom xcms xcmsRaw rawEIC
 #' @import RSQLite
 #' @importFrom stringr str_replace
 #' @import data.table

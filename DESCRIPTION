@@ -14,5 +14,6 @@ Imports: Spectra,
 	xcms,
 	MSnbase,
 	RSQLite,
-	stringr
+	stringr,
+	xcms
 RoxygenNote: 7.1.1

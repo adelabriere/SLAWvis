@@ -10,7 +10,7 @@
 #' @importFrom Spectra Spectra
 #' @import DBI
 #' @import RSQLite
-#' @import stringr
+#' @importFrom stringr str_replace
 #' @import data.table
 #' @import BiocParallel
 NULL

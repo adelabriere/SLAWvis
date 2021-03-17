@@ -13,5 +13,6 @@ Imports: Spectra,
 	MsBackendMgf,
 	xcms,
 	MSnbase,
-	RSQLite
+	RSQLite,
+	stringr
 RoxygenNote: 7.1.1

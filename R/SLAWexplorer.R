@@ -267,7 +267,9 @@ get_eics.SLAWexplorer <- function(slexp,fids,mz_margin=0.005,rt_margin=0.05,...)
   peaks <- mpeaks(slexp,mzlims=peaks_limit[[1]],rtlims=peaks_limit[[2]],...)
   for(sid in seq_along(chroms)){
     temp <- mapply(chroms[[sid]],peaks[[sid]],FUN=.filter_chromatogram,SIMPLIFY = FALSE)
-    chroms$in_peak <- temp
+    for(idx in seq_along(temp)){
+      chroms[[sid]][[idx]]$in_peak <- temp[[idx]]
+    }
   }
   return(chroms)
 }

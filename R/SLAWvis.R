@@ -6,12 +6,10 @@
 #' @name SLAWvis
 #' @import MSnbase
 #' @importFrom MsBackendMgf MsBackendMgf
-#' @import Chromatograms
 #' @import QFeatures
 #' @importFrom Spectra Spectra
 #' @import DBI
 #' @import RSQLite
-#' @import ggplot2
 #' @import stringr
 #' @import data.table
 #' @import BiocParallel

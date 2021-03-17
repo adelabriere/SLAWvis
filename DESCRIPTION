@@ -1,0 +1,17 @@
+Package: SLAWvis
+Type: Package
+Title: SLAW Visualisation Functions
+Version: 0.1.0
+Author: Alexis Delabriere
+Maintainer: Alexis Delabriere <alexis.delabriere@hotmail.fr>
+Description: This package is designed to be used with SLAW to explore and visusaliza mass spec data.
+    It has afocus on visualising a subset of the data using the R for Mass Spectrometry,
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Imports: Spectra,
+	MsBackendMgf,
+	xcms,
+	MSnbase,
+	RSQLite
+RoxygenNote: 7.1.1

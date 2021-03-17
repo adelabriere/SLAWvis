@@ -1,32 +1,39 @@
+#' @export
 select_samples <- function(x,...) {
   UseMethod("select_samples",x)
 }
 
+#' @export
 schromatogram <- function(x,...){
   UseMethod("schromatogram",x)
 }
 
+#' @export
 schromatograms <- function(x,...){
   UseMethod("schromatograms",x)
 }
 
+#' @export
 peaks <- function(x,...){
   UseMethod("peaks",x)
 }
 
+#' @export
 mpeaks <- function(x,...){
   UseMethod("mpeaks",x)
 }
 
+#' @export
 get_eics <- function(x,...){
   UseMethod("get_eics",x)
 }
 
-
+#' @export
 plot_peaks <- function(x,...){
   UseMethod("plot_peaks",x)
 }
 
+#' @export
 plot_features <- function(x,...){
   UseMethod("plot_features",x)
 }
@@ -109,20 +116,22 @@ select_samples.SLAWexplorer<- function(slexp,samples){
   slexp
 }
 
-
+#' @export
 schromatogram.SLAWexplorer <- function(slexp,mzlim,rtlim=NULL){
   lapply(slexp$samples,schromatogram,mzlim=mzlim,rtlim=rtlim)
 }
 
+#' @export
 schromatograms.SLAWexplorer <- function(slexp,mzlims,rtlims=NULL){
   lapply(slexp$samples,schromatograms,mzlims=mzlims,rtlims=rtlims)
 }
 
+#' @export
 peaks.SLAWexplorer <- function(slexp,mzlim,rtlim){
   lapply(slexp$samples,peaks,mzlim=mzlim,rtlim=rtlim)
 }
 
-
+#' @export
 mpeaks.SLAWexplorer <- function(slexp,mzlims,rtlims){
   lapply(slexp$samples,mpeaks,mzlim=mzlims,rtlim=rtlims)
 }
@@ -261,6 +270,7 @@ plot_features.SLAWexplorer <- function(slexp,fids,mz_margin=0.005,rt_margin=0.05
   }
 }
 
+#' @export
 get_eics.SLAWexplorer <- function(slexp,fids,mz_margin=0.005,rt_margin=0.05,...){
   peaks_limit <- .get_peaks_limits(slexp,fids,mz_margin=mz_margin,rt_margin=rt_margin)
   chroms <- schromatograms(slexp,mzlims=peaks_limit[[1]],rtlims=peaks_limit[[2]],...)

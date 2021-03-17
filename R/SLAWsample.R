@@ -1,10 +1,10 @@
-
-path <- "U:/users/Sammy/Alexis/Slaw processed/mzML_unfiltered/10_1.mzML"
-peaktable <- "U:/users/Sammy/Alexis/Slaw processed/CENTWAVE/peaktables/10_1.csv"
-
-
-path2 <- "U:/users/Sammy/Alexis/Slaw processed/mzML_unfiltered/16_1.mzML"
-peaktable2 <- "U:/users/Sammy/Alexis/Slaw processed/CENTWAVE/peaktables/16_1.csv"
+#
+# path <- "U:/users/Sammy/Alexis/Slaw processed/mzML_unfiltered/10_1.mzML"
+# peaktable <- "U:/users/Sammy/Alexis/Slaw processed/CENTWAVE/peaktables/10_1.csv"
+#
+#
+# path2 <- "U:/users/Sammy/Alexis/Slaw processed/mzML_unfiltered/16_1.mzML"
+# peaktable2 <- "U:/users/Sammy/Alexis/Slaw processed/CENTWAVE/peaktables/16_1.csv"
 
 SLAWsample <- function(path,peaktable){
   #Load an xraw in memory
@@ -14,6 +14,7 @@ SLAWsample <- function(path,peaktable){
 }
 
 #Function to retrieve a chromatogram
+#' @export
 schromatogram.SLAWsample <- function(x,mzlim=NULL,rtlim=NULL){
   if(is.null(mzlim)){
     mzlim <- c(0,10000)
@@ -24,6 +25,7 @@ schromatogram.SLAWsample <- function(x,mzlim=NULL,rtlim=NULL){
 }
 
 #Retrieve multiple chromatograms from a single samples
+#' @export
 schromatograms.SLAWsample <- function(x,mzlims,rtlims=NULL){
   if(is.null(rtlims)){
     vals <- apply(mzlims,1,function(x,xraw){
@@ -47,6 +49,7 @@ schromatograms.SLAWsample <- function(x,mzlims,rtlims=NULL){
 
 
 #We return binary vector with the peak detected
+#' @export
 peaks.SLAWsample <- function(x,mzlim=NULL,rtlim=NULL){
   if(is.null(rtlim)){
     rtlim <- c(-1,100000)
@@ -59,6 +62,7 @@ peaks.SLAWsample <- function(x,mzlim=NULL,rtlim=NULL){
 }
 
 #We return binary vector with the peak detected
+#' @export
 mpeaks.SLAWsample <- function(x,mzlims,rtlims=NULL){
   if(is.null(rtlims)){
     rtlims <- cbind(rep(-1,nrow(mzlims)),rep(100000,nrow(mzlims)))

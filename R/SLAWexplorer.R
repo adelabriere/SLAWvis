@@ -38,6 +38,11 @@ plot_features <- function(x,...){
   UseMethod("plot_features",x)
 }
 
+#' @export
+plot_map <- function(x,...){
+  UseMethod("plot_map",x)
+}
+
 
 #' SLAWexplorer TO Visualise SLAW Results
 #'
@@ -110,7 +115,7 @@ select_samples.SLAWexplorer<- function(slexp,samples){
   if(!is.numeric(samples)&any(samples>nrow(slexp$samples))){
     stop("Invalid 'samples'.")
   }
-  slexp$select <- samples
+  slexp$selected <- samples
   paths <- slexp$infos$path[samples]
   slexp$samples <- lapply(samples,FUN = rload_file,slexp=slexp)
   slexp
@@ -196,50 +201,8 @@ layoutMatrix <- function(n) {
   if (n == 5) {
     return(matrix(c(1, 2, 3, 4, 5, 6), nrow = (2), byrow = TRUE))
   }
-  if (n == 6) {
+  if (n >= 6) {
     return(matrix(c(1, 2, 3, 4, 5, 6), nrow = (2), byrow = TRUE))
-  }
-  if (n == 7) {
-    return(matrix(
-      c(1, 2, 3, 4, 5, 6, 7, 8, 9),
-      nrow = (3),
-      byrow = TRUE
-    ))
-  }
-  if (n == 8) {
-    return(matrix(
-      c(1, 2, 3, 4, 5, 6, 7, 8),
-      nrow = (2),
-      byrow = TRUE
-    ))
-  }
-  if (n == 9 | n > 12) {
-    return(matrix(
-      c(1, 2, 3, 4, 5, 6, 7, 8, 9),
-      nrow = (3),
-      byrow = TRUE
-    ))
-  }
-  if (n == 10) {
-    return(matrix(
-      c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
-      nrow = (4),
-      byrow = TRUE
-    ))
-  }
-  if (n == 11) {
-    return(matrix(
-      c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
-      nrow = (4),
-      byrow = TRUE
-    ))
-  }
-  if (n == 12) {
-    return(matrix(
-      c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
-      nrow = (4),
-      byrow = TRUE
-    ))
   }
 }
 
@@ -255,19 +218,32 @@ layoutMatrix <- function(n) {
 #'
 #' @examples
 #' print("Examples to be put here.")
-plot_features.SLAWexplorer <- function(slexp,fids,mz_margin=0.005,rt_margin=0.05,layout_matrix=NULL,...){
+plot_features.SLAWexplorer <- function(slexp,fids,colors=NULL,mz_margin=0.005,rt_margin=0.05,layout_matrix=NULL,legend=TRUE,titles=NULL,...){
   if(is.null(layout_matrix)){
     layout_matrix <- layoutMatrix(length(fids))
+  }
+  if(is.null(colors)){
+    colors <- rainbow(length(slexp$samples))
+  }
+  sample_names <-basename(slexp$infos$path)[slexp$selected]
+  if(legend){
+    layout(1)
+    plot(0,type="n",xlab="",ylab="",xaxt="n",yaxt="n",bty="n")
+    legend("center",legend = sample_names,col=colors,lty=1,lwd=1)
   }
   layout(layout_matrix)
   peaks_limit <- .get_peaks_limits(slexp,fids,mz_margin=mz_margin,rt_margin=rt_margin)
   chroms <- schromatograms(slexp,mzlims=peaks_limit[[1]],rtlims=peaks_limit[[2]],...)
   peaks <- mpeaks(slexp,mzlims=peaks_limit[[1]],rtlims=peaks_limit[[2]],...)
+
   for(fid in seq_along(fids)){
+    eic_title <- paste("EIC: mz:",paste(sprintf("%0.4f",peaks_limit[[1]][fid,]),collapse="-"),"\nrt:",paste(sprintf("%0.2f",peaks_limit[[2]][fid,]),collapse="-"),sep="")
+    if(!is.null(title)) eic_title <- paste(eic_title,"\n",titles[fid],sep="")
     sel_chroms <- lapply(chroms,"[[",i=fid)
     sel_peaks <- lapply(peaks,"[[",i=fid)
-    .plot_peaks(sel_chroms,sel_peaks,...)
+    .plot_peaks(sel_chroms,sel_peaks,title=eic_title,colors=colors,...)
   }
+  layout(1)
 }
 
 #' @export
@@ -307,7 +283,7 @@ get_eics.SLAWexplorer <- function(slexp,fids,mz_margin=0.005,rt_margin=0.05,...)
   #Plotting the peaks
   plot(NULL,xlim=c(tmin,tmax),ylim=c(0,imax),xlab="Time",ylab="Count/Intensity",main=title,...)
   for(idx in seq_along(chromatograms)){
-    lines(chromatograms[[idx]][[1]],chromatograms[[idx]][[2]],type="l",lwd=1,lty=1)
+    lines(chromatograms[[idx]][[1]],chromatograms[[idx]][[2]],type="l",lwd=1,lty=3,col=colors[idx])
     #We bin the peak
     cpeaks <- peaks[[idx]]
     if(nrow(cpeaks)==0) next
@@ -321,10 +297,14 @@ get_eics.SLAWexplorer <- function(slexp,fids,mz_margin=0.005,rt_margin=0.05,...)
     pos_peaks <- which(!is.na(vb))
     if(length(pos_peaks)==0) next
     lines(chromatograms[[idx]][[1]][pos_peaks],chromatograms[[idx]][[2]][pos_peaks],
-          type="l",lwd=1,lty=1,col=colors[idx])
+          type="l",lwd=2,lty=1,col=colors[idx])
   }
 }
 
+#' @export
+`[.SLAWexplorer` <- function(x, i) {
+  x$samples[[i]]
+}
 
 # Test on Sammy
 #

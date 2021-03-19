@@ -7,6 +7,7 @@
 \method{plot_features}{SLAWexplorer}(
   slexp,
   fids,
+  colors = NULL,
   mz_margin = 0.005,
   rt_margin = 0.05,
   layout_matrix = NULL,

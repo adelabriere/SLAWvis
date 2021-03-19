@@ -9,9 +9,10 @@
 #' @import QFeatures
 #' @importFrom Spectra Spectra
 #' @import DBI
+#' @importFrom ggplot2 ggplot geom_point geom_rect xlab ylab theme
 #' @importFrom xcms xcmsRaw rawEIC
 #' @import RSQLite
 #' @importFrom stringr str_replace
-#' @import data.table
+#' @importFrom data.table fread
 #' @import BiocParallel
 NULL
